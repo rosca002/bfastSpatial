@@ -91,7 +91,7 @@ processLandsat <- function(x, vi='ndvi', srdir, outdir, untar=TRUE, delete=FALSE
         
         x <- file.path(srdir, x0)
     }
-    name <- str_extract(string=basename(x[1]), '(LT4|LT5|LE7|LC8)\\d{13}')   
+    name <- str_extract(string=basename(x[1]), 'L(C|O|T|E|M)0?[1-8](.*T[1-2]|\\d{13})')   
     # Filename generation (below) will have to be edited when dynamic indices will be implemented
     # Also note that in case of geotiff length(x)>1
     sr2vi(x=x, vi=vi, filename=sprintf('%s/%s.%s.grd', outdir, vi, name), datatype='INT2S', mask=mask, ...)
