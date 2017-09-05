@@ -50,7 +50,13 @@ timeStack <- function(x, pattern=NULL, orderChrono = TRUE, ...) {
     }
     
     orderChronoFun <- function(list) {
-        list2 <- list[order(substr(str_extract(string=basename(list), '(LT4|LT5|LE7|LC8)\\d{13}'), 4, 16))] 
+        if grepl(pattern = 'L(C|O|T|E|M)0[1-8]', list[[1]]){
+            list2 <- list[order(substr(str_extract(string=basename(list), 'L(C|O|T|E|M)0[1-8](.*T[1-2])'), 11, 25))] 
+            }
+        else
+            {
+            list2 <- list[order(substr(str_extract(string=basename(list), '(LT4|LT5|LE7|LC8)\\d{13}'), 4, 16))] 
+            }
         return(list2)        
     }
     
