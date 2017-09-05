@@ -36,7 +36,7 @@ getSceneinfo <- function(sourcefile, ...)
   # dates in LS naming system are formatted with year and julian day as one number - "%Y%j" (e.g. 2001036 = 2001-02-05)
   # reformat date as "%Y-%m-%d" (ie. yyyy-mm-dd)
   if (grepl(pattern = 'L(C|O|T|E|M)0[1-8]', sourcefile)){
-    dates <- as.Date(substr(sourcefile, 18, 25), format="%Y%m%d")
+    dates <- as.Date(substr(sourcefile, 11, 18), format="%Y%m%d")
     # extract path, row
     path <- as.numeric(substr(sourcefile, 11, 13))
     row <- as.numeric(substr(sourcefile, 14, 16))
