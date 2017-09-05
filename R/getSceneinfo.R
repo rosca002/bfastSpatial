@@ -26,33 +26,43 @@ getSceneinfo <- function(sourcefile, ...)
 {
   # for the sake of convenience, sourcefile can be either a character vector of scene names (or subfolders) or the original .tar.gz or .tar files
   # this will check which it is and format accordingly
-  if(!all(grepl(pattern='(LT4|LT5|LE7|LC8)\\d{13}', x=sourcefile)))
+  if(!all(grepl(pattern='L(C|O|T|E|M)0?[1-8](.*T[1-2]|\\d{13})', x=sourcefile)))
       warning('Some of the characters provided do not contain recognized Landsat5/7/8 scene ID')
     
     
-  sourcefile <- str_extract(sourcefile, '(LT4|LT5|LE7|LC8)\\d{13}') 
+  sourcefile <- str_extract(sourcefile, 'L(C|O|T|E|M)0?[1-8](.*T[1-2]|\\d{13})') 
   
   
   # dates in LS naming system are formatted with year and julian day as one number - "%Y%j" (e.g. 2001036 = 2001-02-05)
   # reformat date as "%Y-%m-%d" (ie. yyyy-mm-dd)
-  dates <- as.Date(substr(sourcefile, 10, 16), format="%Y%j")
+  if grepl(pattern = 'L(C|O|T|E|M)0[1-8]', sourcefile){
+    dates <- as.Date(substr(sourcefile, 18, 25), format="%Y%m%d")
+    # extract path, row
+    path <- as.numeric(substr(sourcefile, 11, 13))
+    row <- as.numeric(substr(sourcefile, 14, 16))
+  }
+  else
+    {
+    dates <- as.Date(substr(sourcefile, 10, 16), format="%Y%j")
+    # extract path, row
+    path <- as.numeric(substr(sourcefile, 4, 6))
+    row <- as.numeric(substr(sourcefile, 7, 9))
+    }
+
   
   # identify the sensor
   sensor <- as.character(mapply(sourcefile, dates, FUN=function(x,y){
-    sen <- substr(x, 1, 3)
+    sen <- grep(pattern = 'L(C|O|T|E|M)0?[1-8]', x)
     if(is.na(sen)) NA 
-    else if(sen == "LE7" & y <= "2003-03-31")
+    else if(grepl(pattern = 'LE0?7', sen) & y <= "2003-03-31")
       "ETM+ SLC-on"
-    else if(sen == "LE7" & y > "2003-03-31")
+    else if(grepl(pattern = 'LE0?7', sen) & y > "2003-03-31")
       "ETM+ SLC-off"
-    else if(sen == "LT5" | sen == "LT4") 
+    else if(grepl(pattern = 'LT0?5', sen) | grepl(pattern = 'LT0?4', sen)) 
       "TM" 
-    else if(sen == "LC8")
+    else if(grepl(pattern = 'LC0?8', sen))
       "OLI"      
   }))
-  # extract path, row
-  path <- as.numeric(substr(sourcefile, 4, 6))
-  row <- as.numeric(substr(sourcefile, 7, 9))
   
   # throw all attributes into a data.frame
   info <- data.frame(sensor = sensor, path = path, row = row, date = dates)
