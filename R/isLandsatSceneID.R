@@ -13,6 +13,6 @@
         if(is.character(x)) {
             all(grepl(pattern='L(C|O|T|E|M)0?[1-8](.*T[1-2]|\\d{13})', x))
         } else if(inherits(x, 'RasterStackBrick')) {
-            all(grepl(pattern='L(C|O|T|E|M)0?[1-8](.*T[1-2]|\d{13})', x=names(x)))
+            all(grepl(pattern='L(C|O|T|E|M)0?[1-8](.*T[1-2]|\\d{13})', x=names(x)))
         }
 }
