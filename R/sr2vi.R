@@ -18,13 +18,17 @@
 #' @import rgdal
 #' @export
 
-sr2vi <- function(x, vi='ndvi', e=NULL, mask=NULL, keep=c(0,672,2720), L=0.5, ...) {      
+sr2vi <- function(x, vi='ndvi', e=NULL, mask=NULL, keep=c(0,66,130,322,386), L=0.5, ...) {      
     
     # x is a character (full filename of an hdf file)
     # filename is a character, full filename of the output file
     # The function depends on the MODIS package + raster
     # mask is a numeric, the sds number of the mask to use
     # if filename is used, I recommend also setting datatype to 'INT2S'
+    # Values for the qa (new implementation of cfmask (after June 2017))
+    # should be used specifically for SR product 
+    # https://landsat.usgs.gov/sites/default/files/documents/lasrc_product_guide.pdf page 19 for Landsat 8
+    # https://landsat.usgs.gov/sites/default/files/documents/ledaps_product_guide.pdf page 19 for Landsat 4-7
     
     # Functions definition
     
