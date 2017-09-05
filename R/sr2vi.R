@@ -18,7 +18,7 @@
 #' @import rgdal
 #' @export
 
-sr2vi <- function(x, vi='ndvi', e=NULL, mask=NULL, keep=c(0), L=0.5, ...) {      
+sr2vi <- function(x, vi='ndvi', e=NULL, mask=NULL, keep=c(0,672,2720), L=0.5, ...) {      
     
     # x is a character (full filename of an hdf file)
     # filename is a character, full filename of the output file
