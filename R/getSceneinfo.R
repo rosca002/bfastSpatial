@@ -52,7 +52,7 @@ getSceneinfo <- function(sourcefile, ...)
   
   # identify the sensor
   sensor <- as.character(mapply(sourcefile, dates, FUN=function(x,y){
-    sen <- grep(pattern = 'L(C|O|T|E|M)0?[1-8]', x)
+    sen <- grep(pattern = 'L(C|O|T|E|M)0?[1-8]', x, value = TRUE)
     if(is.na(sen)) NA 
     else if(grepl(pattern = 'LE0?7', sen) & y <= "2003-03-31")
       "ETM+ SLC-on"
